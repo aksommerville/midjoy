@@ -44,6 +44,11 @@ int mj_input_update(struct mj_input *input,int to_ms);
  
 struct mj_output {
   char *dstpath;
+  struct mj_output_device {
+    int fd,devid;
+    int x,y;
+  } *devicev;
+  int devicec,devicea;
 };
 
 void mj_output_cleanup(struct mj_output *output);
