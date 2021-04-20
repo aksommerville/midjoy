@@ -18,7 +18,6 @@ static int mj_daemonize() {
 }
 
 static int mj_rcvin(int devid,const void *src,int srcc,void *userdata) {
-  fprintf(stderr,"%s %d, %d bytes\n",__func__,devid,srcc);
   struct mj_output *output=userdata;
   if (!srcc) {
     return mj_output_disconnect_device(output,devid);

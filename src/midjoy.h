@@ -9,15 +9,28 @@
 
 struct mj_input;
 struct mj_output;
+struct pollfd;
 
 /* Input.
  ****************************************************/
  
 struct mj_input {
-  char *srcpath;
-  // Devices introduce themselves with an empty Sysex packet (f0f7), and farewell with an empty packet.
+
+  /* Devices introduce themselves with an empty Sysex packet (f0f7), and farewell with an empty packet.
+   * (devid) is unique among connected devices, and derived from the file name, eg 2 for "/dev/midi2".
+   */
   int (*cb)(int devid,const void *src,int srcc,void *userdata);
   void *userdata;
+  
+  char *srcpath;
+  struct pollfd *pollfdv;
+  int pollfda;
+  int infd;
+  int refresh; // Set nonzero to scan directory at next update
+  struct mj_input_device {
+    int fd,devid;
+  } *devicev;
+  int devicec,devicea;
 };
 
 void mj_input_cleanup(struct mj_input *input);
